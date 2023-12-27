@@ -37,7 +37,7 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width, height: 240)
+        return .init(width: view.frame.width, height: 336)
     }
     
     
@@ -45,6 +45,7 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
     
     init() {
         let flowLayout = UICollectionViewFlowLayout()
+//        let layout = UICollectionViewLayout()
         super.init(collectionViewLayout: flowLayout)
     }
     

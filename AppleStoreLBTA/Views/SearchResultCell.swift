@@ -45,9 +45,25 @@ class SearchResultCell: UICollectionViewCell {
         button.setTitleColor(.blue, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.layer.cornerRadius = 8
-        button.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 36).isActive = true
         return button
     }()
+    
+    
+    lazy var screenshot1ImageView = self.createScreenshotImageView()
+    lazy var screenshot2ImageView = self.createScreenshotImageView()
+    lazy var screenshot3ImageView = self.createScreenshotImageView()
+
+    
+    
+    fileprivate func createScreenshotImageView() -> UIImageView {
+        
+        let imageView = UIImageView()
+        imageView.backgroundColor = .blue
+        imageView.layer.cornerRadius = 12
+        return imageView
+    }
     
     
     
@@ -55,21 +71,23 @@ class SearchResultCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .red
         
-        let vStack = UIStackView(arrangedSubviews: [nameLabel, categoryLabel, ratingsLabel])
-        vStack.axis = .vertical
-        vStack.backgroundColor = .gray
-        let hStackView = UIStackView(arrangedSubviews: [imageView, vStack, getButton])
-        hStackView.backgroundColor = .yellow
-        hStackView.alignment = .center
-        hStackView.spacing = 16
-        addSubview(hStackView)
-        hStackView.translatesAutoresizingMaskIntoConstraints = false
-        hStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        hStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        hStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        hStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+//        let vStack = UIStackView(arrangedSubviews: [nameLabel, categoryLabel, ratingsLabel])
+//        vStack.axis = .vertical
+        
+        let vStack = VerticalStackView(arrangedSubviews: [nameLabel, categoryLabel, ratingsLabel])
+        
+        let infoTapStackView = UIStackView(arrangedSubviews: [imageView, vStack, getButton])
+        let screenshotsStackView = UIStackView(arrangedSubviews: [screenshot1ImageView, screenshot2ImageView, screenshot3ImageView])
+        screenshotsStackView.distribution = .fillEqually
+        screenshotsStackView.spacing = 12
+        infoTapStackView.alignment = .center
+        infoTapStackView.spacing = 12
+        let overAllStackView = VerticalStackView(arrangedSubviews: [infoTapStackView, screenshotsStackView], spacing: 16)
+        addSubview(overAllStackView)
+        overAllStackView.fillSuperview(padding: .init(top: 16, left: 16, bottom: 16, right: 16))
+        
+        
     }
     
     required init?(coder: NSCoder) {

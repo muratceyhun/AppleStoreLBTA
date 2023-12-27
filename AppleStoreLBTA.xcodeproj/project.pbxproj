@@ -15,6 +15,8 @@
 		431731992B3B2E0100AB788D /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431731982B3B2E0100AB788D /* BaseTabBarController.swift */; };
 		434F0A8E2B3B671800F632C1 /* AppsSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A8D2B3B671800F632C1 /* AppsSearchController.swift */; };
 		434F0A912B3C9C1500F632C1 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */; };
+		434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */; };
+		434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		431731982B3B2E0100AB788D /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		434F0A8D2B3B671800F632C1 /* AppsSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsSearchController.swift; sourceTree = "<group>"; };
 		434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 		431731832B3A012C00AB788D /* AppleStoreLBTA */ = {
 			isa = PBXGroup;
 			children = (
+				434F0A922B3CBFE100F632C1 /* Helpers */,
 				434F0A8F2B3C9BFC00F632C1 /* Views */,
 				434F0A8C2B3B66F200F632C1 /* Controllers */,
 				431731842B3A012C00AB788D /* AppDelegate.swift */,
@@ -87,6 +92,15 @@
 				434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		434F0A922B3CBFE100F632C1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */,
+				434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +178,8 @@
 				431731852B3A012C00AB788D /* AppDelegate.swift in Sources */,
 				434F0A8E2B3B671800F632C1 /* AppsSearchController.swift in Sources */,
 				434F0A912B3C9C1500F632C1 /* SearchResultCell.swift in Sources */,
+				434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */,
+				434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */,
 				431731872B3A012C00AB788D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
