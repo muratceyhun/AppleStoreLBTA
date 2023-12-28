@@ -20,13 +20,50 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
         
         
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellID)
+        fetchResults()
+    }
+    
+    
+    fileprivate func fetchResults() {
+        
+        let urlString = "https://itunes.apple.com/search?term=instagram&entity=software"
+        
+        guard let url = URL(string: urlString) else {return}
+        
+        
+        URLSession.shared.dataTask(with: url) { data, response, err in
+            
+            if let err = err {
+                print("Failed to fetch data", err)
+            }
+            
+//            print(data)
+//            print(String(data: data ?? Data(), encoding: .utf8))
+            
+            guard let data = data else {return}
+            
+            do {
+                
+               let searchResult = try JSONDecoder().decode(SearchResult.self, from: data)
+                print("*******")
+                
+                searchResult.results.forEach{print($0.trackCensoredName, "|", $0.primaryGenreName)}
+                
+            } catch let err {
+                print("Failed to decode data", err)
+            }
+            
+        }.resume()
+        
+        
         
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SearchResultCell
+        cell.nameLabel.text = "App Name"
         return cell
     }
     
