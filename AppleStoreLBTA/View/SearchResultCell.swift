@@ -10,6 +10,8 @@ import UIKit
 
 class SearchResultCell: UICollectionViewCell {
     
+    
+    
     let imageView: UIImageView = {
        let iw = UIImageView()
         iw.backgroundColor = .black

@@ -12,7 +12,7 @@ import UIKit
 struct SearchResult: Decodable {
     
     
-    let resultCount: Int
+    let resultCount: Int?
     let results: [Result]
     
     
@@ -20,7 +20,8 @@ struct SearchResult: Decodable {
 
 struct Result: Decodable {
     
-    let trackCensoredName: String
-    let primaryGenreName: String
+    let trackCensoredName: String?
+    let primaryGenreName: String?
+    let averageUserRating: Float?
     
 }

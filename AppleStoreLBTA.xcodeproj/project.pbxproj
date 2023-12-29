@@ -18,6 +18,7 @@
 		434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */; };
 		434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */; };
 		434F0A992B3DD77900F632C1 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A982B3DD77900F632C1 /* SearchResult.swift */; };
+		434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A9B2B3F1E9A00F632C1 /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackView.swift; sourceTree = "<group>"; };
 		434F0A982B3DD77900F632C1 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		434F0A9B2B3F1E9A00F632C1 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,10 +68,11 @@
 		431731832B3A012C00AB788D /* AppleStoreLBTA */ = {
 			isa = PBXGroup;
 			children = (
-				434F0A972B3DD76C00F632C1 /* Model */,
+				434F0A9A2B3F1E9100F632C1 /* Service */,
 				434F0A922B3CBFE100F632C1 /* Helpers */,
-				434F0A8F2B3C9BFC00F632C1 /* Views */,
-				434F0A8C2B3B66F200F632C1 /* Controllers */,
+				434F0A972B3DD76C00F632C1 /* Model */,
+				434F0A8F2B3C9BFC00F632C1 /* View */,
+				434F0A8C2B3B66F200F632C1 /* Controller */,
 				431731842B3A012C00AB788D /* AppDelegate.swift */,
 				431731862B3A012C00AB788D /* SceneDelegate.swift */,
 				431731882B3A012C00AB788D /* ViewController.swift */,
@@ -80,21 +83,21 @@
 			path = AppleStoreLBTA;
 			sourceTree = "<group>";
 		};
-		434F0A8C2B3B66F200F632C1 /* Controllers */ = {
+		434F0A8C2B3B66F200F632C1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				431731982B3B2E0100AB788D /* BaseTabBarController.swift */,
 				434F0A8D2B3B671800F632C1 /* AppsSearchController.swift */,
 			);
-			path = Controllers;
+			path = Controller;
 			sourceTree = "<group>";
 		};
-		434F0A8F2B3C9BFC00F632C1 /* Views */ = {
+		434F0A8F2B3C9BFC00F632C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		434F0A922B3CBFE100F632C1 /* Helpers */ = {
@@ -112,6 +115,14 @@
 				434F0A982B3DD77900F632C1 /* SearchResult.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		434F0A9A2B3F1E9100F632C1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				434F0A9B2B3F1E9A00F632C1 /* Service.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +202,7 @@
 				434F0A8E2B3B671800F632C1 /* AppsSearchController.swift in Sources */,
 				434F0A912B3C9C1500F632C1 /* SearchResultCell.swift in Sources */,
 				434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */,
+				434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */,
 				434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */,
 				431731872B3A012C00AB788D /* SceneDelegate.swift in Sources */,
 			);
