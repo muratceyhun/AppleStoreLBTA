@@ -25,11 +25,11 @@ class AppsGroupCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .lightGray
+        backgroundColor = .white
         addSubview(label)
         addSubview(appsHorizontalController.view)
-        label.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil)
-        appsHorizontalController.view.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
+        label.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 22, bottom: 0, right: 0))
+        appsHorizontalController.view.anchor(top: label.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
         
     }
     
