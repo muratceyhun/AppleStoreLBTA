@@ -16,7 +16,6 @@ class BaseListController: UICollectionViewController {
     init() {
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)
-        
     }
     
     required init?(coder: NSCoder) {

@@ -21,6 +21,9 @@
 		434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A9B2B3F1E9A00F632C1 /* Service.swift */; };
 		434F0A9F2B3F2E0800F632C1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 434F0A9E2B3F2E0800F632C1 /* SDWebImage */; };
 		434F0AA62B40338300F632C1 /* BaseListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0AA52B40338300F632C1 /* BaseListController.swift */; };
+		434F0AA82B40372800F632C1 /* AppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0AA72B40372800F632C1 /* AppsController.swift */; };
+		434F0AAC2B4039AE00F632C1 /* AppsGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0AAB2B4039AE00F632C1 /* AppsGroupCell.swift */; };
+		434F0AAE2B4040FE00F632C1 /* AppsHorizontalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0AAD2B4040FE00F632C1 /* AppsHorizontalController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,9 @@
 		434F0A982B3DD77900F632C1 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		434F0A9B2B3F1E9A00F632C1 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		434F0AA52B40338300F632C1 /* BaseListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseListController.swift; sourceTree = "<group>"; };
+		434F0AA72B40372800F632C1 /* AppsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsController.swift; sourceTree = "<group>"; };
+		434F0AAB2B4039AE00F632C1 /* AppsGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsGroupCell.swift; sourceTree = "<group>"; };
+		434F0AAD2B4040FE00F632C1 /* AppsHorizontalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsHorizontalController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +106,8 @@
 		434F0A8F2B3C9BFC00F632C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */,
+				434F0AAA2B40394800F632C1 /* AppsView */,
+				434F0AA92B40393800F632C1 /* SearchView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -142,6 +149,8 @@
 		434F0AA12B40330E00F632C1 /* AppsController */ = {
 			isa = PBXGroup;
 			children = (
+				434F0AA72B40372800F632C1 /* AppsController.swift */,
+				434F0AAD2B4040FE00F632C1 /* AppsHorizontalController.swift */,
 			);
 			path = AppsController;
 			sourceTree = "<group>";
@@ -152,6 +161,22 @@
 				431731982B3B2E0100AB788D /* BaseTabBarController.swift */,
 			);
 			path = BaseTabBarController;
+			sourceTree = "<group>";
+		};
+		434F0AA92B40393800F632C1 /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				434F0A902B3C9C1500F632C1 /* SearchResultCell.swift */,
+			);
+			path = SearchView;
+			sourceTree = "<group>";
+		};
+		434F0AAA2B40394800F632C1 /* AppsView */ = {
+			isa = PBXGroup;
+			children = (
+				434F0AAB2B4039AE00F632C1 /* AppsGroupCell.swift */,
+			);
+			path = AppsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,11 +261,14 @@
 				431731852B3A012C00AB788D /* AppDelegate.swift in Sources */,
 				434F0A8E2B3B671800F632C1 /* AppsSearchController.swift in Sources */,
 				434F0A912B3C9C1500F632C1 /* SearchResultCell.swift in Sources */,
+				434F0AAC2B4039AE00F632C1 /* AppsGroupCell.swift in Sources */,
 				434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */,
 				434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */,
 				434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */,
 				434F0AA62B40338300F632C1 /* BaseListController.swift in Sources */,
 				431731872B3A012C00AB788D /* SceneDelegate.swift in Sources */,
+				434F0AA82B40372800F632C1 /* AppsController.swift in Sources */,
+				434F0AAE2B4040FE00F632C1 /* AppsHorizontalController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
