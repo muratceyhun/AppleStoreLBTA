@@ -50,6 +50,8 @@ class AppsSearchController: UICollectionViewController, UICollectionViewDelegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
+        let searchText = searchText.replacingOccurrences(of: " ", with: "+")
+        
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
             

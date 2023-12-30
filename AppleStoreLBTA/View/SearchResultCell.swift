@@ -63,7 +63,7 @@ class SearchResultCell: UICollectionViewCell {
     
     let getButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .brown
+        button.backgroundColor = UIColor(white: 0.8, alpha: 0.3)
         button.setTitle("GET", for: .normal)
         button.setTitleColor(.blue, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)

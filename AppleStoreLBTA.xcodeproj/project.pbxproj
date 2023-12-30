@@ -20,6 +20,7 @@
 		434F0A992B3DD77900F632C1 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A982B3DD77900F632C1 /* SearchResult.swift */; };
 		434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0A9B2B3F1E9A00F632C1 /* Service.swift */; };
 		434F0A9F2B3F2E0800F632C1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 434F0A9E2B3F2E0800F632C1 /* SDWebImage */; };
+		434F0AA62B40338300F632C1 /* BaseListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F0AA52B40338300F632C1 /* BaseListController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalStackView.swift; sourceTree = "<group>"; };
 		434F0A982B3DD77900F632C1 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		434F0A9B2B3F1E9A00F632C1 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		434F0AA52B40338300F632C1 /* BaseListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseListController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +90,9 @@
 		434F0A8C2B3B66F200F632C1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				434F0A8D2B3B671800F632C1 /* AppsSearchController.swift */,
-				431731982B3B2E0100AB788D /* BaseTabBarController.swift */,
+				434F0AA12B40330E00F632C1 /* AppsController */,
+				434F0AA02B4032FF00F632C1 /* SearchController */,
+				434F0AA22B40331B00F632C1 /* BaseTabBarController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -107,6 +110,7 @@
 			children = (
 				434F0A932B3CBFEF00F632C1 /* UIView+Layout.swift */,
 				434F0A952B3CC7A200F632C1 /* VerticalStackView.swift */,
+				434F0AA52B40338300F632C1 /* BaseListController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -125,6 +129,29 @@
 				434F0A9B2B3F1E9A00F632C1 /* Service.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		434F0AA02B4032FF00F632C1 /* SearchController */ = {
+			isa = PBXGroup;
+			children = (
+				434F0A8D2B3B671800F632C1 /* AppsSearchController.swift */,
+			);
+			path = SearchController;
+			sourceTree = "<group>";
+		};
+		434F0AA12B40330E00F632C1 /* AppsController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppsController;
+			sourceTree = "<group>";
+		};
+		434F0AA22B40331B00F632C1 /* BaseTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				431731982B3B2E0100AB788D /* BaseTabBarController.swift */,
+			);
+			path = BaseTabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +239,7 @@
 				434F0A962B3CC7A200F632C1 /* VerticalStackView.swift in Sources */,
 				434F0A9C2B3F1E9A00F632C1 /* Service.swift in Sources */,
 				434F0A942B3CBFEF00F632C1 /* UIView+Layout.swift in Sources */,
+				434F0AA62B40338300F632C1 /* BaseListController.swift in Sources */,
 				431731872B3A012C00AB788D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
