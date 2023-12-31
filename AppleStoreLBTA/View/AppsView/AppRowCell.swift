@@ -9,7 +9,13 @@ import UIKit
 
 class AppRowCell: UICollectionViewCell {
     
-    
+//    var topFreeApp: TopFreeApps! {
+//        didSet {
+//            appImageView.sd_setImage(with: URL(string: topFreeApp.feed.results.first?.artworkUrl100 ?? ""))
+//            appName.text = topFreeApp.feed.results.first?.name
+//            companyName.text = topFreeApp.feed.results.first?.artistName
+//        }
+//    }
     
     let appImageView: UIImageView = {
         let imageView = UIImageView()
@@ -26,6 +32,7 @@ class AppRowCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "App Name"
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 220).isActive = true
         return label
     }()
     
@@ -35,6 +42,7 @@ class AppRowCell: UICollectionViewCell {
         label.text = "Company Name"
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.textColor = .lightGray
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 220).isActive = true
         return label
     }()
     

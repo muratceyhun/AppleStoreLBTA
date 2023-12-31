@@ -42,7 +42,7 @@ class AppsHeaderCell: UICollectionViewCell {
         verticalStackView.axis = .vertical
         verticalStackView.spacing = 8
         addSubview(verticalStackView)
-        verticalStackView.fillSuperview()
+        verticalStackView.fillSuperview(padding: .init(top: 8, left: 0, bottom: 8, right: 0))
     }
     
     required init?(coder: NSCoder) {

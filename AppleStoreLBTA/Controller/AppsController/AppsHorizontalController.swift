@@ -12,6 +12,10 @@ class AppsHorizontalController: BaseListController, UICollectionViewDelegateFlow
     
     let cellID = "cellID"
     
+    
+    var freeApps: TopFreeApps?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,12 +30,18 @@ class AppsHorizontalController: BaseListController, UICollectionViewDelegateFlow
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AppRowCell
+        let freeApp = freeApps?.feed.results[indexPath.item]
+        cell.appImageView.sd_setImage(with: URL(string: freeApp?.artworkUrl100 ?? ""))
+        cell.appName.text = freeApp?.name
+        cell.companyName.text = freeApp?.artistName
+        
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return 10
+        return freeApps?.feed.results.count ?? .zero
     }
     
     let topBottomPadding: CGFloat = 12

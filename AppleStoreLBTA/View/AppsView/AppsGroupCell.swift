@@ -12,7 +12,7 @@ class AppsGroupCell: UICollectionViewCell {
     
     
     let appsHorizontalController = AppsHorizontalController()
-
+    
     
     let label: UILabel = {
         let label = UILabel()
@@ -30,7 +30,7 @@ class AppsGroupCell: UICollectionViewCell {
         addSubview(appsHorizontalController.view)
         label.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 22, bottom: 0, right: 0))
         appsHorizontalController.view.anchor(top: label.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
-        
+
     }
     
     
