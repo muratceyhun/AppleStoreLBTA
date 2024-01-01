@@ -32,7 +32,6 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.addSubview(enterSearchTermLabel)
         enterSearchTermLabel.fillSuperview(padding: .init(top: 260, left: 56, bottom: 0, right: 56))
-//        fetchItunesApps()
         setupSearchBar()
     
     }
@@ -60,7 +59,8 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
                     print("Failed to get fetch results", err)
                     return
                 }
-                self.appResults = results
+                guard let results = results else {return}
+                self.appResults = results.results
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -70,21 +70,7 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
     }
     
     
-    fileprivate func fetchItunesApps() {
-        Service.shared.fetchApps(searchTerm: "Twitter") { results, err in
-            if let err = err {
-                print("Failed to get fetch results", err)
-                return
-            }
-            self.appResults = results
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
-    
-    
-        
+
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         

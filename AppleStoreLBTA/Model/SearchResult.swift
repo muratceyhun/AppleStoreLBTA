@@ -8,7 +8,6 @@
 import UIKit
 
 
-
 struct SearchResult: Decodable {
     
     let resultCount: Int?
