@@ -12,6 +12,8 @@ class AppsHeaderHorizontalController: BaseListController, UICollectionViewDelega
     
     let cellID = "cellID"
     
+    var headerResults = [HeaderModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,12 +26,14 @@ class AppsHeaderHorizontalController: BaseListController, UICollectionViewDelega
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AppsHeaderCell
+        let headerResult = headerResults[indexPath.item]
+        cell.headerResult = headerResult
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return headerResults.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

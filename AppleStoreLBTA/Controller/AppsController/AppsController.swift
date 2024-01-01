@@ -15,28 +15,51 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     
     var groups = [TopFreeApps]()
-    
+    var headerResults = [HeaderModel]()
     
     var group1: TopFreeApps?
     var group2: TopFreeApps?
     var group3: TopFreeApps?
-
+    
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .black
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.backgroundColor = .white
         collectionView.register(AppsGroupCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(AppsHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
+        collectionView.register(AppsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
+        view.addSubview(activityIndicator)
+        activityIndicator.fillSuperview()
         fetchData()
+        fetchHeaderResults()
+    }
+    
+    fileprivate func fetchHeaderResults() {
+        
+        Service.shared.fetchHeaderResults { headerResults, err in
+            if let err = err {
+                print("Failed to get header results", err)
+                return
+            }
+            guard let headerResults = headerResults else {return}
+            self.headerResults = headerResults
+        }
+        
     }
     
 
     
     fileprivate func fetchData() {
         
-        let dispatchGroup = DispatchGroup()
-
+            let dispatchGroup = DispatchGroup()
             
             dispatchGroup.enter()
             Service.shared.fetchTopFreeApps { appResults, err in
@@ -46,26 +69,31 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
                     return
                 }
                 self.group1 = appResults
+
             }
         
          
-            
+
             dispatchGroup.enter()
+
             Service.shared.fetchTopMusics { appResults, err in
                 dispatchGroup.leave()
+
                 if let err = err {
                     print("Failed to get app results", err)
                     return
                 }
                 self.group2 = appResults
             }
-        
+
         
         
             
             dispatchGroup.enter()
+
             Service.shared.fetchTopPodcasts { appResults, err in
                 dispatchGroup.leave()
+
                 if let err = err {
                     print("Failed to get app results", err)
                     return
@@ -76,7 +104,6 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         
         dispatchGroup.notify(queue: .main) {
 
-
             if let group = self.group1 {
                 self.groups.append(group)
 
@@ -84,14 +111,16 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
             if let group = self.group2 {
                 self.groups.append(group)
 
+
             }
             if let group = self.group3 {
                 self.groups.append(group)
 
+
             }
-            
+
             self.collectionView.reloadData()
-            
+
         }
     }
     
@@ -99,7 +128,9 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! AppsPageHeader
+        header.appsHeaderHorizontalController.headerResults = self.headerResults
+        header.appsHeaderHorizontalController.collectionView.reloadData()
         return header
     }
     
@@ -107,7 +138,7 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         let width: CGFloat = view.frame.width
-        return .init(width: width, height: 0)
+        return .init(width: width, height: 300)
     }
     
     
@@ -119,11 +150,15 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         cell.label.text = group.feed.title
         cell.appsHorizontalController.freeApps = group
         cell.appsHorizontalController.collectionView.reloadData()
+        
         return cell
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if groups.count != 0 {
+            activityIndicator.stopAnimating()
+        }
         return groups.count
         
     }

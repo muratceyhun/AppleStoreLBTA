@@ -10,6 +10,17 @@ import UIKit
 
 class AppsHeaderCell: UICollectionViewCell {
     
+    
+    var headerResult: HeaderModel! {
+        didSet {
+            companyLabel.text = headerResult.name
+            infoLabel.text = headerResult.tagline
+            imageView.sd_setImage(with: URL(string: headerResult.imageUrl))
+        }
+    }
+    
+    
+    
     let companyLabel: UILabel = {
         let label = UILabel()
         label.text = "Company Name"

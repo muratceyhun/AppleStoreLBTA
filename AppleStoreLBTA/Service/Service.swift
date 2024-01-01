@@ -106,4 +106,35 @@ class Service {
             }.resume()
         
     }
+    
+        
+    
+    func fetchHeaderResults(completion: @escaping ([HeaderModel]?, Error?) -> ()) {
+        
+        guard let url = URL(string: "https://api.letsbuildthatapp.com/appstore/social") else {return}
+        
+            URLSession.shared.dataTask(with: url) { data, res, err in
+                
+                if let err = err {
+                    print("Failed to get header results", err)
+                    completion(nil, err)
+                    return
+                }
+                
+                guard let data = data else {return}
+//                print(data)
+//                print(String(data: data, encoding: .utf8))
+
+                do {
+
+                    let headerResults = try JSONDecoder().decode([HeaderModel].self, from: data)
+                    completion(headerResults, nil)
+
+                } catch let err {
+                    print("Failed to decode header data", err)
+                    completion(nil, err)
+                }
+            }.resume()
+        
+    }
 }

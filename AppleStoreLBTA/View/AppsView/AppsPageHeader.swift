@@ -1,5 +1,5 @@
 //
-//  AppsHeader.swift
+//  AppsPageHeader.swift
 //  AppleStoreLBTA
 //
 //  Created by Murat Ceyhun Korpeoglu on 30.12.2023.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-class AppsHeader: UICollectionReusableView {
+class AppsPageHeader: UICollectionReusableView {
     
-    let headerCell = AppsHeaderHorizontalController()
+    let appsHeaderHorizontalController = AppsHeaderHorizontalController()
 
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .white
-        addSubview(headerCell.view)
-        headerCell.view.fillSuperview()
+        addSubview(appsHeaderHorizontalController.view)
+        appsHeaderHorizontalController.view.fillSuperview()
         
     }
     
