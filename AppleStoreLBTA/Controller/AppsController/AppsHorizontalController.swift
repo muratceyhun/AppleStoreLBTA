@@ -8,7 +8,8 @@
 import UIKit
 
 
-class AppsHorizontalController: BaseListController, UICollectionViewDelegateFlowLayout {
+
+class AppsHorizontalController: HorizontalSnappingController, UICollectionViewDelegateFlowLayout {
     
     let cellID = "cellID"
     
@@ -21,10 +22,8 @@ class AppsHorizontalController: BaseListController, UICollectionViewDelegateFlow
         
         collectionView.backgroundColor = .white
         collectionView.register(AppRowCell.self, forCellWithReuseIdentifier: cellID)
-        
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-        }
+        collectionView.decelerationRate = .fast
+        collectionView.contentInset = .init(top: 8, left: 16, bottom: 8, right: 16)
         
     }
     
@@ -51,11 +50,16 @@ class AppsHorizontalController: BaseListController, UICollectionViewDelegateFlow
         let width = view.frame.width
         let height = view.frame.height
         return .init(width: width - 48, height: (height - 2 * (topBottomPadding + lineSpacing)) / 3)
+
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 12, left: 16, bottom: 12, right: 16)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        
+//           return .init(top: 12, left: 16, bottom: 12, right: 16)
+//
+//       
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return lineSpacing

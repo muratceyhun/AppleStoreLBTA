@@ -33,7 +33,7 @@ class AppsHeaderCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Keeping up with friends is faster than ever"
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 26, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
         return label
     }()
     
@@ -51,9 +51,9 @@ class AppsHeaderCell: UICollectionViewCell {
                 
         let verticalStackView = UIStackView(arrangedSubviews: [companyLabel, infoLabel, imageView])
         verticalStackView.axis = .vertical
-        verticalStackView.spacing = 8
+        verticalStackView.spacing = 6
         addSubview(verticalStackView)
-        verticalStackView.fillSuperview(padding: .init(top: 8, left: 0, bottom: 8, right: 0))
+        verticalStackView.fillSuperview(padding: .init(top: 8, left: 0, bottom: 0, right: 0))
     }
     
     required init?(coder: NSCoder) {

@@ -28,7 +28,7 @@ class AppsGroupCell: UICollectionViewCell {
         backgroundColor = .white
         addSubview(label)
         addSubview(appsHorizontalController.view)
-        label.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 22, bottom: 0, right: 0))
+        label.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 16, bottom: 0, right: 0))
         appsHorizontalController.view.anchor(top: label.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
 
     }

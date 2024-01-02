@@ -73,7 +73,7 @@ class AppRowCell: UICollectionViewCell {
         labelStackView.spacing = 4
         
         addSubview(appImageView)
-        appImageView.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 8, bottom: 0, right: 0))
+        appImageView.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 8, left: 0, bottom: 0, right: 0))
         appImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         addSubview(labelStackView)
         labelStackView.anchor(top: nil, leading: appImageView.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 12, bottom: 0, right: 0))
