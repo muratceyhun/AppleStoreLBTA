@@ -42,6 +42,7 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         fetchHeaderResults()
     }
     
+    
     fileprivate func fetchHeaderResults() {
         
         Service.shared.fetchHeaderResults { headerResults, err in
@@ -150,6 +151,13 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         cell.label.text = group.feed.title
         cell.appsHorizontalController.freeApps = group
         cell.appsHorizontalController.collectionView.reloadData()
+        cell.appsHorizontalController.didSelectHandler = { [weak self] freeApp in
+            
+            let vc = DetailViewController()
+            self?.navigationController?.pushViewController(vc, animated: true)
+            vc.navigationItem.title = freeApp.name
+            vc.navigationItem.largeTitleDisplayMode = .automatic
+        }
         
         return cell
     }

@@ -39,6 +39,18 @@ class AppsHorizontalController: HorizontalSnappingController, UICollectionViewDe
         return cell
     }
     
+    
+    var didSelectHandler: ((AppResults) -> ())?
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        let freeApp = freeApps?.feed.results[indexPath.item]
+        guard let freeApp = freeApp else {return}
+        print(freeApp.name ?? "")
+        didSelectHandler?(freeApp)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return freeApps?.feed.results.count ?? .zero
     }
