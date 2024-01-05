@@ -12,9 +12,8 @@ import SDWebImage
 class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     let appDetailCellID = "appDetailCellID"
-    var searchResults: SearchResult?
     var app: Result?
-    var appID: String! {
+    var appID: String? {
         didSet {
             guard let appID = appID else {return}
             print("Here is app id :", appID)
@@ -43,26 +42,32 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailCellID, for: indexPath) as! AppDetailCell
+        cell.app = self.app
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
         
-//        cell.appName.text = app?.trackCensoredName
-        cell.appName.text = app?.trackCensoredName ?? ""
-        cell.descriptionLabel.text = app?.releaseNotes ?? ""
-
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width - 32, height: 300)
+        
+        let dummyCell = AppDetailCell(frame: .init(x: 0, y: 0, width: view.frame.width, height: 1000))
+        dummyCell.descriptionLabel.text = app?.releaseNotes
+        dummyCell.layoutIfNeeded()
+        let estimatedSize = dummyCell.systemLayoutSizeFitting(.init(width: view.frame.width, height: 1000))
+        return.init(width: collectionView.frame.width - 32, height: estimatedSize.height)
+        
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 16, left: 0, bottom: 16, right: 0)
+        .init(top: 16, left: 0, bottom: 0, right: 0)
     }
     
   
