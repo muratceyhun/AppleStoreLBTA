@@ -12,6 +12,7 @@ import SDWebImage
 class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     let appDetailCellID = "appDetailCellID"
+    let previewCellID = "previewCellID"
     var app: Result?
     var appID: String? {
         didSet {
@@ -35,33 +36,50 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         collectionView.register(AppDetailCell.self, forCellWithReuseIdentifier: appDetailCellID)
+        collectionView.register(PreviewCell.self, forCellWithReuseIdentifier: previewCellID)
         
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailCellID, for: indexPath) as! AppDetailCell
-        cell.app = self.app
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
+        
+        if indexPath.item == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: appDetailCellID, for: indexPath) as! AppDetailCell
+            cell.app = self.app
+
+            return cell
+            
+        } else {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: previewCellID, for: indexPath) as! PreviewCell
+            cell.previewScreenShotsController.app = self.app
+            DispatchQueue.main.async {
+                cell.previewScreenShotsController.collectionView.reloadData()
+            }
+            return cell
         }
         
-        return cell
+     
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let dummyCell = AppDetailCell(frame: .init(x: 0, y: 0, width: view.frame.width, height: 1000))
-        dummyCell.descriptionLabel.text = app?.releaseNotes
-        dummyCell.layoutIfNeeded()
-        let estimatedSize = dummyCell.systemLayoutSizeFitting(.init(width: view.frame.width, height: 1000))
-        return.init(width: collectionView.frame.width - 32, height: estimatedSize.height)
+        if indexPath.item == 0 {
+            let dummyCell = AppDetailCell(frame: .init(x: 0, y: 0, width: view.frame.width, height: 1000))
+            dummyCell.app = self.app
+            dummyCell.layoutIfNeeded()
+            let estimatedSize = dummyCell.systemLayoutSizeFitting(.init(width: view.frame.width, height: 1000))
+            return.init(width: view.frame.width - 32, height: estimatedSize.height)
+        } else {
+            
+            return .init(width: view.frame.width, height: 600)
+        }
         
     }
     

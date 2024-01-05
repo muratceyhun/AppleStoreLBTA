@@ -14,11 +14,10 @@ class AppDetailCell: UICollectionViewCell {
     
     var app: Result! {
         didSet {
-            
-            appImageView.sd_setImage(with: URL(string: app.artworkUrl512 ?? ""))
-            appName.text = app.trackCensoredName
-            priceButton.setTitle(app.formattedPrice, for: .normal)
-            descriptionLabel.text = app.releaseNotes
+            appImageView.sd_setImage(with: URL(string: app?.artworkUrl512 ?? ""))
+            appName.text = app?.trackCensoredName
+            priceButton.setTitle(app?.formattedPrice, for: .normal)
+            descriptionLabel.text = app?.releaseNotes
             
         }
     }
@@ -27,11 +26,12 @@ class AppDetailCell: UICollectionViewCell {
     
     let appImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .red
         imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
+        imageView.layer.borderWidth = 0.5
+        imageView.layer.borderColor = UIColor.lightGray.cgColor
         return imageView
     }()
     
@@ -67,15 +67,13 @@ class AppDetailCell: UICollectionViewCell {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "dsakdajsjldasnldasnljdsanklnkdlasnkldasnkldasnkdsnnads dsakdajsjldasnldasnljdsanklnkdlasnkldasnkldasnkdsnnads dsakdajsjldasnldasnljdsanklnkdlasnkldasnkldasnkdsnnads"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 0
-        label.backgroundColor = .yellow
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .lightGray
         addSubview(appImageView)
         appImageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil)
         addSubview(appName)

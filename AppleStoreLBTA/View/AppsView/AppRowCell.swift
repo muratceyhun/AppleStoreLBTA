@@ -21,6 +21,8 @@ class AppRowCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .purple
         imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 0.5
+        imageView.layer.borderColor = UIColor.lightGray.cgColor
         imageView.clipsToBounds = true
         imageView.widthAnchor.constraint(equalToConstant: 64).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 64).isActive = true
