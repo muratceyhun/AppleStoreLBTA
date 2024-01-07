@@ -13,7 +13,10 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
     
     let appDetailCellID = "appDetailCellID"
     let previewCellID = "previewCellID"
+    let reviewCellID = "reviewCellID"
+    
     var app: Result?
+    var appReviews: Reviews?
     var appID: String? {
         didSet {
             guard let appID = appID else {return}
@@ -24,9 +27,26 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
                     print("Failed to get selected app details", err)
                     return
                 }
-                print(searchResults?.results.first?.releaseNotes)
                 let app = searchResults?.results.first
                 self.app = app
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            
+            let urlStringForReview = "https://itunes.apple.com/us/rss/customerreviews/id=\(appID)/json"
+            Service.shared.fetchGenericJSONData(urlString: urlStringForReview) { (reviewResult: Reviews?, err) in
+                print(urlStringForReview)
+                
+                if let err = err {
+                    print("Failed to get review results", err)
+                    return
+                }
+                
+                reviewResult?.feed.entry.forEach {print($0.author.name.label)}
+                self.appReviews = reviewResult
+            
+       
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -39,12 +59,13 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
     
         collectionView.register(AppDetailCell.self, forCellWithReuseIdentifier: appDetailCellID)
         collectionView.register(PreviewCell.self, forCellWithReuseIdentifier: previewCellID)
+        collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: reviewCellID)
         
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -55,13 +76,24 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
 
             return cell
             
-        } else {
+        } else if indexPath.item == 1 {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: previewCellID, for: indexPath) as! PreviewCell
             cell.previewScreenShotsController.app = self.app
             DispatchQueue.main.async {
                 cell.previewScreenShotsController.collectionView.reloadData()
             }
+            return cell
+        } else {
+        
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reviewCellID, for: indexPath) as! ReviewCell
+            
+            cell.reviewController.reviewResults = appReviews
+            
+            DispatchQueue.main.async {
+                cell.reviewController.collectionView.reloadData()
+            }
+            
             return cell
         }
         
@@ -76,9 +108,12 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
             dummyCell.layoutIfNeeded()
             let estimatedSize = dummyCell.systemLayoutSizeFitting(.init(width: view.frame.width, height: 1000))
             return.init(width: view.frame.width - 32, height: estimatedSize.height)
-        } else {
+        } else if indexPath.item == 1  {
             
             return .init(width: view.frame.width, height: 600)
+        } else {
+            
+            return .init(width: view.frame.width, height: 256)
         }
         
     }
