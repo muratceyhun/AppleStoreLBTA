@@ -23,6 +23,12 @@ struct Entry: Decodable {
     let author: AuthorReview
     let title: Label
     let content: Label
+    let rating: Label
+    
+    enum CodingKeys: String, CodingKey {
+        case author, title, content
+        case rating = "im:rating"
+    }
 }
 
 struct AuthorReview: Decodable {

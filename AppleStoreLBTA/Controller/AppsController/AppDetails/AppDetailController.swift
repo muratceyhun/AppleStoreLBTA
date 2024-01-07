@@ -43,7 +43,9 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
                     return
                 }
                 
-                reviewResult?.feed.entry.forEach {print($0.author.name.label)}
+                
+                reviewResult?.feed.entry.forEach{print($0.rating)}
+                
                 self.appReviews = reviewResult
             
        

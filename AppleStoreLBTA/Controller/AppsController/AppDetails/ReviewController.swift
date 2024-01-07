@@ -32,7 +32,30 @@ class ReviewController: HorizontalSnappingController, UICollectionViewDelegateFl
         cell.commentTitle.text = reviewResult?.title.label
         cell.authorName.text = reviewResult?.author.name.label
         cell.commentLabel.text = reviewResult?.content.label
-
+        
+        cell.starsStackView.arrangedSubviews.forEach { star in
+            star.isHidden = true
+        }
+        
+        if reviewResult?.rating.label == "5" {
+            cell.starsStackView.arrangedSubviews.forEach{$0.isHidden = false}
+        } else if reviewResult?.rating.label == "4" {
+            cell.starsStackView.arrangedSubviews[0].isHidden = false
+            cell.starsStackView.arrangedSubviews[1].isHidden = false
+            cell.starsStackView.arrangedSubviews[2].isHidden = false
+            cell.starsStackView.arrangedSubviews[3].isHidden = false
+        } else if reviewResult?.rating.label == "3" {
+            cell.starsStackView.arrangedSubviews[0].isHidden = false
+            cell.starsStackView.arrangedSubviews[1].isHidden = false
+            cell.starsStackView.arrangedSubviews[2].isHidden = false
+        } else if reviewResult?.rating.label == "2" {
+            cell.starsStackView.arrangedSubviews[0].isHidden = false
+            cell.starsStackView.arrangedSubviews[1].isHidden = false
+        } else if reviewResult?.rating.label == "1" {
+            cell.starsStackView.arrangedSubviews[0].isHidden = false
+        }
+        
+        
         return cell
     }
     
