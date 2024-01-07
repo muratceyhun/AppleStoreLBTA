@@ -11,50 +11,24 @@ import SDWebImage
 
 class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayout {
     
+    fileprivate var appID: String
+    
+    init(appID: String) {
+        self.appID = appID
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let appDetailCellID = "appDetailCellID"
     let previewCellID = "previewCellID"
     let reviewCellID = "reviewCellID"
     
     var app: Result?
     var appReviews: Reviews?
-    var appID: String? {
-        didSet {
-            guard let appID = appID else {return}
-            print("Here is app id :", appID)
-            let urlString = "https://itunes.apple.com/lookup?id=\(appID)"
-            Service.shared.fetchGenericJSONData(urlString: urlString) { (searchResults: SearchResult?, err) in
-                if let err = err {
-                    print("Failed to get selected app details", err)
-                    return
-                }
-                let app = searchResults?.results.first
-                self.app = app
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
-            
-            let urlStringForReview = "https://itunes.apple.com/us/rss/customerreviews/id=\(appID)/json"
-            Service.shared.fetchGenericJSONData(urlString: urlStringForReview) { (reviewResult: Reviews?, err) in
-                print(urlStringForReview)
-                
-                if let err = err {
-                    print("Failed to get review results", err)
-                    return
-                }
-                
-                
-                reviewResult?.feed.entry.forEach{print($0.rating)}
-                
-                self.appReviews = reviewResult
-            
-       
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
-        }
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +36,43 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
         collectionView.register(AppDetailCell.self, forCellWithReuseIdentifier: appDetailCellID)
         collectionView.register(PreviewCell.self, forCellWithReuseIdentifier: previewCellID)
         collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: reviewCellID)
+        fetchData()
+    }
+    
+    fileprivate func fetchData() {
+        
+        let urlString = "https://itunes.apple.com/lookup?id=\(appID)"
+        Service.shared.fetchGenericJSONData(urlString: urlString) { (searchResults: SearchResult?, err) in
+            if let err = err {
+                print("Failed to get selected app details", err)
+                return
+            }
+            let app = searchResults?.results.first
+            self.app = app
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+        
+        let urlStringForReview = "https://itunes.apple.com/us/rss/customerreviews/id=\(appID)/json"
+        Service.shared.fetchGenericJSONData(urlString: urlStringForReview) { (reviewResult: Reviews?, err) in
+            print(urlStringForReview)
+            
+            if let err = err {
+                print("Failed to get review results", err)
+                return
+            }
+            
+            
+            reviewResult?.feed.entry.forEach{print($0.rating)}
+            
+            self.appReviews = reviewResult
+        
+   
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
         
     }
     

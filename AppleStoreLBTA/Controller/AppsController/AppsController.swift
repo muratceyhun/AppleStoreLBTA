@@ -153,11 +153,10 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         cell.appsHorizontalController.collectionView.reloadData()
         cell.appsHorizontalController.didSelectHandler = { [weak self] freeApp in
             
-            let appDetailController = AppDetailController()
+            let appDetailController = AppDetailController(appID: freeApp.id ?? "")
             self?.navigationController?.pushViewController(appDetailController, animated: true)
             appDetailController.navigationItem.title = freeApp.name
             appDetailController.navigationItem.largeTitleDisplayMode = .never
-            appDetailController.appID = freeApp.id
         }
         
         return cell

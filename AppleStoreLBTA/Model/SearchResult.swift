@@ -25,5 +25,6 @@ struct Result: Decodable {
     let formattedPrice: String?
     let releaseNotes: String?
     let screenshotUrls: [String]
+    let trackId: Int
     
 }
