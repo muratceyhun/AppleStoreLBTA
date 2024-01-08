@@ -24,12 +24,54 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         super.viewDidLayoutSubviews()
         navigationController?.isNavigationBarHidden = true
 //        navigationController?.navigationBar.isHidden = true
+//        navigationController?.setNavigationBarHidden(true, animated: true)
+
     }
-    
+        
+    var startingFrame: CGRect?
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("That cell selected", indexPath.section)
+        
+        let redView = UIView()
+        redView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleRemoveRedView)))
+        redView.backgroundColor = .red
+        redView.layer.cornerRadius = 16
+        view.addSubview(redView)
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) else {return}
+        
+//        redView.frame = cell.frame//This is not working very  well, you should use absolute coordinates of cell
+        
+        guard let startingFrame = cell.superview?.convert(cell.frame, to: nil) else {return}
+        self.startingFrame = startingFrame
+        
+        redView.frame = startingFrame
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.6) {
+            redView.frame = self.view.frame
+        } completion: { _ in
+    
+        }
+
+
     }
+    
+    @objc fileprivate func handleRemoveRedView(gesture: UITapGestureRecognizer) {
+        
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7) {
+            
+            guard let startingFrame = self.startingFrame else {return}
+            
+            gesture.view?.frame = startingFrame
+
+        } completion: { _ in
+            gesture.view?.removeFromSuperview()
+
+        }
+
+    }
+    
+
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
