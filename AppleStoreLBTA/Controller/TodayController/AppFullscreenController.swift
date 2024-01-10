@@ -7,12 +7,22 @@
 
 import UIKit
 
+
+
 class AppFullscreenController: UITableViewController {
+    
+    
+    var todayItem: TodayItem?
+    
+    
+    var dismissHandler: (() -> ())?
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         
     }
     
@@ -23,13 +33,24 @@ class AppFullscreenController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            return AppFullscreenHeaderCell()
+            let appFullscreenHeaderCell = AppFullscreenHeaderCell()
+            appFullscreenHeaderCell.todayCell.todayItem = todayItem
+            appFullscreenHeaderCell.closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+            return appFullscreenHeaderCell
         }
         
         let cell = AppFullscreenDescriptionCell()
         return cell
-        
     }
+    
+    @objc fileprivate func handleCloseButton(button: UIButton) {
+        button.isHidden = true
+        dismissHandler?()
+    }
+    
+
+    
+
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

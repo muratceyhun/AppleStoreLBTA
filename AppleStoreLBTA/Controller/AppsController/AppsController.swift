@@ -17,6 +17,7 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
     var groups = [TopFreeApps]()
     var headerResults = [HeaderModel]()
     
+    
     var group1: TopFreeApps?
     var group2: TopFreeApps?
     var group3: TopFreeApps?
@@ -60,9 +61,11 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     fileprivate func fetchData() {
         
+        
             let dispatchGroup = DispatchGroup()
-            
+
             dispatchGroup.enter()
+
             Service.shared.fetchTopFreeApps { appResults, err in
                 dispatchGroup.leave()
                 if let err = err {
@@ -72,12 +75,13 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
                 self.group1 = appResults
 
             }
-        
-         
+
+
 
             dispatchGroup.enter()
 
             Service.shared.fetchTopMusics { appResults, err in
+
                 dispatchGroup.leave()
 
                 if let err = err {
@@ -85,14 +89,16 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
                     return
                 }
                 self.group2 = appResults
+
             }
 
-        
-        
-            
+
+
+
             dispatchGroup.enter()
 
             Service.shared.fetchTopPodcasts { appResults, err in
+
                 dispatchGroup.leave()
 
                 if let err = err {
@@ -100,9 +106,10 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
                     return
                 }
                 self.group3 = appResults
+
             }
-        
-        
+
+
         dispatchGroup.notify(queue: .main) {
 
             if let group = self.group1 {
@@ -123,6 +130,7 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
             self.collectionView.reloadData()
 
         }
+
     }
     
     
