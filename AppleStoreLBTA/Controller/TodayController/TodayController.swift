@@ -29,13 +29,27 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
 
         collectionView.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.9098039269, blue: 0.9098039269, alpha: 1)
         collectionView.register(TodayCell.self, forCellWithReuseIdentifier: todayCellID)
+//        createBarrierView(color: #colorLiteral(red: 0.9098039269, green: 0.9098039269, blue: 0.9098039269, alpha: 1))
     }
+    
+
+    
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         navigationController?.isNavigationBarHidden = true
 //        navigationController?.navigationBar.isHidden = true
 //        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
+
+    fileprivate func createBarrierView(color: UIColor) {
+        let vw = UIView()
+        vw.backgroundColor = color
+        view.addSubview(vw)
+        vw.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, trailing: view.trailingAnchor)
     }
         
     var appFullscreenController: AppFullscreenController!
@@ -49,14 +63,14 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
+        collectionView.isUserInteractionEnabled = false
+
         let todayItem = todayItems[indexPath.item]
-        
-        
         
         let appFullscreenController = AppFullscreenController()
         
         appFullscreenController.todayItem = todayItem
-    
+
         
         appFullscreenController.dismissHandler = {
             self.handleRemoveFullScreenView()
@@ -71,9 +85,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         view.addSubview(fullScreenView)
         
         
-        
         guard let cell = collectionView.cellForItem(at: indexPath) else {return}
-        
+                
         guard let startingFrame = cell.superview?.convert(cell.frame, to: nil) else {return}
         self.startingFrame = startingFrame
         
@@ -84,8 +97,15 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         heightConstraint = fullScreenView.heightAnchor.constraint(equalToConstant: startingFrame.height)
         
         [topConstraint, leadingConstraint, widthConstraint, heightConstraint].forEach{$0?.isActive = true}
-        
+
         self.view.layoutIfNeeded()
+        
+        let fullScreenCell = appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
+        fullScreenCell.todayCell.topConstraint.constant = 88
+        
+        fullScreenCell.layoutIfNeeded()
+        
+
         
         
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.6, options: .curveEaseOut) {
@@ -96,8 +116,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
             self.heightConstraint?.constant = self.view.frame.height
             
             self.view.layoutIfNeeded()  // This fires off the animation...
-            
-            
+                        
             
             self.tabBarController?.tabBar.frame.origin.y = self.view.frame.height
             
@@ -109,7 +128,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     }
     
      fileprivate func handleRemoveFullScreenView() {
-        
+    
         self.view?.layoutIfNeeded()
         
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7) {
@@ -128,6 +147,11 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
             
             self.view?.layoutIfNeeded()
             
+            let fullScreenCell = self.appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
+            fullScreenCell.todayCell.topConstraint.constant = 24
+            
+            fullScreenCell.layoutIfNeeded()
+            
             
             if let tabBarFrame = self.tabBarController?.tabBar.frame {
                 self.tabBarController?.tabBar.frame.origin.y = self.view.frame.size.height - tabBarFrame.height
@@ -136,6 +160,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         } completion: { _ in
             self.appFullscreenController.view.removeFromSuperview()
             self.appFullscreenController.removeFromParent()
+            self.collectionView.isUserInteractionEnabled = true
             
         }
         

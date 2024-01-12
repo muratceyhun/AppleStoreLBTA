@@ -53,6 +53,9 @@ class TodayCell: UICollectionViewCell {
         label.numberOfLines = 3
         return label
     }()
+    
+    
+    var topConstraint: NSLayoutConstraint!
 
     
     
@@ -68,7 +71,10 @@ class TodayCell: UICollectionViewCell {
         addSubview(imageView)
         addSubview(descriptionLabel)
         
-        categoryLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 0, right: 0))
+        topConstraint = categoryLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24)
+        topConstraint.isActive = true
+        
+        categoryLabel.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 0, right: 0))
         titleLabel.anchor(top: categoryLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 24, bottom: 0, right: 0))
         imageView.anchor(top: titleLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 12, left: 0, bottom: 0, right: 0))
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
