@@ -36,7 +36,7 @@ class TodayMultipleAppCell: BaseTodayCell {
         return label
     }()
     
-    let VC = UIViewController()
+    let todayMultipleAppController = TodayMultipleAppController()
     
     
     override init(frame: CGRect) {
@@ -45,16 +45,15 @@ class TodayMultipleAppCell: BaseTodayCell {
         backgroundColor = .white
         layer.cornerRadius = 16
         clipsToBounds = true
-        VC.view.backgroundColor = .red
         
         addSubview(categoryLabel)
         addSubview(titleLabel)
-        addSubview(VC.view)
+        addSubview(todayMultipleAppController.view)
         backgroundColor = .white
         categoryLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 0, right: 24))
         titleLabel.anchor(top: categoryLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 24, bottom: 0, right: 24))
         
-        VC.view.anchor(top: titleLabel.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 42, right: 24))
+        todayMultipleAppController.view.anchor(top: titleLabel.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 42, right: 24))
     }
     
     required init?(coder: NSCoder) {

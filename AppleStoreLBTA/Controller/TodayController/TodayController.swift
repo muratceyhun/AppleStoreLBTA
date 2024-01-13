@@ -105,6 +105,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         let fullScreenCell = appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
         fullScreenCell.todayCell.topConstraint.constant = 88
         
+
         fullScreenCell.layoutIfNeeded()
         
 

@@ -33,8 +33,8 @@ class TodayCell: BaseTodayCell {
     let titleLabel: UILabel = {
        let label = UILabel()
         label.text = "Utilizing your Time"
-        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.numberOfLines = 0
         label.constrainHeight(constant: 44)
         return label
     }()
