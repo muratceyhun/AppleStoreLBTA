@@ -9,10 +9,10 @@ import UIKit
 
 
 
-class TodayCell: UICollectionViewCell {
+class TodayCell: BaseTodayCell {
     
     
-    var todayItem: TodayItem! {
+    override var todayItem: TodayItem! {
         didSet {
             categoryLabel.text = todayItem.category
             titleLabel.text = todayItem.title
@@ -33,6 +33,7 @@ class TodayCell: UICollectionViewCell {
     let titleLabel: UILabel = {
        let label = UILabel()
         label.text = "Utilizing your Time"
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.constrainHeight(constant: 44)
         return label
@@ -64,7 +65,7 @@ class TodayCell: UICollectionViewCell {
         
         backgroundColor = .white
         layer.cornerRadius = 16
-        clipsToBounds = translatesAutoresizingMaskIntoConstraints
+        clipsToBounds = true
         
         addSubview(categoryLabel)
         addSubview(titleLabel)
@@ -74,8 +75,8 @@ class TodayCell: UICollectionViewCell {
         topConstraint = categoryLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24)
         topConstraint.isActive = true
         
-        categoryLabel.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 0, right: 0))
-        titleLabel.anchor(top: categoryLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 24, bottom: 0, right: 0))
+        categoryLabel.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 24, left: 24, bottom: 0, right: 24))
+        titleLabel.anchor(top: categoryLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 24, bottom: 0, right: 24))
         imageView.anchor(top: titleLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 12, left: 0, bottom: 0, right: 0))
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         descriptionLabel.anchor(top: imageView.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 16, left: 24, bottom: 16, right: 24))
