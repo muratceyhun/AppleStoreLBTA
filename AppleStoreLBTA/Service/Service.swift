@@ -37,6 +37,14 @@ class Service {
             fetchGenericJSONData(urlString: urlString, completion: completion)
     }
     
+
+    func fetchTopBooks(completion: @escaping (TopFreeApps?, Error?) -> ()) {
+        
+        let urlString = "https://rss.applemarketingtools.com/api/v2/tr/books/top-free/50/books.json"
+        
+            fetchGenericJSONData(urlString: urlString, completion: completion)
+    }
+    
     func fetchTopPodcasts(completion: @escaping (TopFreeApps?, Error?) -> ()) {
         
         let urlString = "https://rss.applemarketingtools.com/api/v2/tr/podcasts/top/50/podcasts.json"

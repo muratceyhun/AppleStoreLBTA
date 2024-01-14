@@ -17,6 +17,8 @@ class TodayMultipleAppCell: BaseTodayCell {
             categoryLabel.text = todayItem.category
             titleLabel.text = todayItem.title
             
+            todayMultipleAppController.topPaidApp = self.todayItem.apps
+            todayMultipleAppController.collectionView.reloadData()
         }
     }
     

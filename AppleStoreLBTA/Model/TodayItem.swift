@@ -20,7 +20,7 @@ struct TodayItem {
     
     let cellType: CellType
     
-    
+    let apps: [AppResults]
     
     enum CellType: String {
         

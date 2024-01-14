@@ -11,15 +11,21 @@ import UIKit
 class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     
-    var todayItems =
+    var todayItems = [TodayItem]()
     
-    [
-        TodayItem(category: "THE DAILY LIST", title: "Test-Drive These CarPlay Apps", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
-        TodayItem(category: "LIFE HACK", title: "Utilizing your Time", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .single),
-        TodayItem(category: "THE DAILY LIST", title: "Test-Drive These CarPlay Apps", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
-        TodayItem(category: "HOLIDAYS", title: "Travel on a Budget", image: #imageLiteral(resourceName: "holiday"), description: "Find out all you need to know on how to travel without packing everything!", color: #colorLiteral(red: 0.9838810563, green: 0.9640342593, blue: 0.7226806879, alpha: 1), cellType: .single)
+    var group1: TopFreeApps?
+    var group2: TopFreeApps?
     
-    ]
+//    var todayItems =
+//
+//    [
+//        TodayItem(category: "THE DAILY LIST", title: "Top Paid Apps", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
+//        TodayItem(category: "THE DAILY LIST", title: "Popular Books", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
+//
+//        TodayItem(category: "LIFE HACK", title: "Utilizing your Time", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .single),
+//                TodayItem(category: "HOLIDAYS", title: "Travel on a Budget", image: #imageLiteral(resourceName: "holiday"), description: "Find out all you need to know on how to travel without packing everything!", color: #colorLiteral(red: 0.9838810563, green: 0.9640342593, blue: 0.7226806879, alpha: 1), cellType: .single)
+//
+//    ]
     
     
     override func viewDidLoad() {
@@ -29,9 +35,57 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         collectionView.register(TodayCell.self, forCellWithReuseIdentifier: TodayItem.self.CellType.single.rawValue)
         collectionView.register(TodayMultipleAppCell.self, forCellWithReuseIdentifier: TodayItem.CellType.multiple.rawValue)
         
-//        collectionView.register(todayMultipleCellID.self, forCellWithReuseIdentifier: todayMultipleCellID)
+        fetchItems()
+
+    }
+    
+    fileprivate func fetchItems() {
         
-//        createBarrierView(color: #colorLiteral(red: 0.9098039269, green: 0.9098039269, blue: 0.9098039269, alpha: 1))
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        Service.shared.fetchTopPaidApps { topPaidApps, err in
+            
+            if let err = err {
+                print("Failed to get top paid apps", err)
+            }
+            
+            self.group1 = topPaidApps
+            dispatchGroup.leave()
+        }
+        
+        
+        dispatchGroup.enter()
+        Service.shared.fetchTopBooks { topFreeBooks, err in
+            
+            if let err = err {
+                print("Failed to get top free books", err)
+            }
+            
+            self.group2 = topFreeBooks
+            dispatchGroup.leave()
+        }
+        
+        
+        dispatchGroup.notify(queue: .main) {
+                        
+            self.todayItems =
+            
+            [
+                TodayItem(category: "THE DAILY LIST", title: self.group1?.feed.title ?? "", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple, apps: self.group1?.feed.results ?? []),
+                TodayItem(category: "LIFE HACK", title: "Utilizing your Time", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .single, apps: []),
+                TodayItem(category: "THE DAILY LIST", title: "Top Free Books", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple, apps: self.group2?.feed.results ?? []),
+                
+                        TodayItem(category: "HOLIDAYS", title: "Travel on a Budget", image: #imageLiteral(resourceName: "holiday"), description: "Find out all you need to know on how to travel without packing everything!", color: #colorLiteral(red: 0.9838810563, green: 0.9640342593, blue: 0.7226806879, alpha: 1), cellType: .single, apps: [])
+            ]
+            
+            self.collectionView.reloadData()
+        }
+        
+
+      
+        
+        
     }
     
 
@@ -183,7 +237,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! BaseTodayCell
         
         cell.todayItem = self.todayItems[indexPath.item]
-    
+        
         return cell
    
     }

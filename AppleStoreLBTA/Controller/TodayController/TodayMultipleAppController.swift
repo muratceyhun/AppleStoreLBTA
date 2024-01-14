@@ -10,7 +10,9 @@ import UIKit
 
 class TodayMultipleAppController: HorizontalSnappingController, UICollectionViewDelegateFlowLayout {
     
-    var topPaidApps: TopFreeApps?
+    
+    var topPaidApp: [AppResults]?
+    
     
     
     let multipleAppListCellID = "multipleAppListCellID"
@@ -18,37 +20,24 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-
         collectionView.register(MultipleAppListCell.self, forCellWithReuseIdentifier: multipleAppListCellID)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
-        fetchItems()
-      
-    }
-    
-    fileprivate func fetchItems() {
-        Service.shared.fetchTopPaidApps { topPaidApps, err in
-            if let err = err {
-                print("Failed to get top paid apps", err)
-            }
-            self.topPaidApps = topPaidApps
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
     }
     
 
+    
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return topPaidApps?.feed.results.count ?? .zero
+        return 4
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: multipleAppListCellID, for: indexPath) as! MultipleAppListCell
-        let topPaidApp = self.topPaidApps?.feed.results[indexPath.item]
-        cell.topPaidApp = topPaidApp
+        
+        guard let topPaidApp = topPaidApp else {return cell}
+        cell.topPaidApp = topPaidApp[indexPath.item]
         return cell
     }
     
@@ -64,7 +53,6 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spacing
     }
-    
     
     
 }
