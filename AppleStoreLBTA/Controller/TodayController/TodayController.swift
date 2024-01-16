@@ -114,9 +114,10 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         
         if todayItems[indexPath.item].cellType == .multiple {
             let vc = TodayMultipleAppController(mode: .fullscreen)
-            vc.modalPresentationStyle = .fullScreen
             vc.topPaidApp = todayItems[indexPath.item].apps
-            present(vc, animated: true)
+            let navVc = UINavigationController(rootViewController: vc)
+            navVc.modalPresentationStyle = .fullScreen
+            present(navVc, animated: true)
             return
         }
         

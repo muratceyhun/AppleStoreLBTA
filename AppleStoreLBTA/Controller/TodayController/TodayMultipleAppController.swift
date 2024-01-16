@@ -50,6 +50,10 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if mode == .small {
+            self.collectionView.isUserInteractionEnabled = false
+        }
 
         collectionView.register(MultipleAppListCell.self, forCellWithReuseIdentifier: multipleAppListCellID)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
@@ -57,6 +61,8 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
         }
         
         if mode == .fullscreen {
+            self.navigationController?.navigationBar.isHidden = true
+//            self.navigationController?.isNavigationBarHidden = true
             setupCloseButton()
             return
         }
@@ -72,6 +78,16 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     fileprivate func setupCloseButton() {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 36, left: 0, bottom: 0, right: 20), size: .init(width: 48, height: 48))
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let id = topPaidApp?[indexPath.item].id else {return}
+        
+        let appDetailController = AppDetailController(appID: id)
+        self.navigationController?.pushViewController(appDetailController, animated: true)
+        
+        
     }
     
 
@@ -108,7 +124,16 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 24, left: 24, bottom: 24, right: 24)
+        
+        if mode == .small {
+             return .init(top: 0, left: 24, bottom: 24, right: 24)
+
+        } else {
+          return .init(top: 24, left: 24, bottom: 24, right: 24)
+
+        }
+
+        
     }
     
     let spacing: CGFloat = 16
