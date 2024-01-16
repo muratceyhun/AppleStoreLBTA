@@ -16,7 +16,7 @@ class TodayMultipleAppCell: BaseTodayCell {
         didSet {
             categoryLabel.text = todayItem.category
             titleLabel.text = todayItem.title
-            
+        
             todayMultipleAppController.topPaidApp = self.todayItem.apps
             todayMultipleAppController.collectionView.reloadData()
         }
@@ -38,7 +38,7 @@ class TodayMultipleAppCell: BaseTodayCell {
         return label
     }()
     
-    let todayMultipleAppController = TodayMultipleAppController()
+    let todayMultipleAppController = TodayMultipleAppController(mode: .small)
     
     
     override init(frame: CGRect) {

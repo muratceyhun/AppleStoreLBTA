@@ -10,27 +10,80 @@ import UIKit
 
 class TodayMultipleAppController: HorizontalSnappingController, UICollectionViewDelegateFlowLayout {
     
+   
     
     var topPaidApp: [AppResults]?
     
+    
+    
+    var mode: Mode
+    
+    enum Mode {
+        case small
+        case fullscreen
+    }
+    
+    init(mode: Mode) {
+        self.mode = mode
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    let closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "close_button"), for: .normal)
+        button.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc fileprivate func handleCloseButton() {
+        dismiss(animated: true)
+    }
     
     
     let multipleAppListCellID = "multipleAppListCellID"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         collectionView.register(MultipleAppListCell.self, forCellWithReuseIdentifier: multipleAppListCellID)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
+            layout.scrollDirection = .vertical
         }
+        
+        if mode == .fullscreen {
+            setupCloseButton()
+            return
+        }
+        
+        
+    }
+    
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    fileprivate func setupCloseButton() {
+        view.addSubview(closeButton)
+        closeButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 36, left: 0, bottom: 0, right: 20), size: .init(width: 48, height: 48))
     }
     
 
     
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        
+        if mode == .fullscreen {
+            return topPaidApp?.count ?? .zero
+        } else {
+           return 4
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -44,8 +97,18 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let height = (view.frame.height - 3 * spacing) / 4
-        return .init(width: view.frame.width, height: height)
+        if mode == .small {
+            let height = (view.frame.height - 3 * spacing) / 4
+            return .init(width: view.frame.width, height: height)
+        } else {
+            return .init(width: view.frame.width - 48, height: 70)
+        }
+        
+     
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        .init(top: 24, left: 24, bottom: 24, right: 24)
     }
     
     let spacing: CGFloat = 16

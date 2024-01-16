@@ -16,17 +16,13 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     var group1: TopFreeApps?
     var group2: TopFreeApps?
     
-//    var todayItems =
-//
-//    [
-//        TodayItem(category: "THE DAILY LIST", title: "Top Paid Apps", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
-//        TodayItem(category: "THE DAILY LIST", title: "Popular Books", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple),
-//
-//        TodayItem(category: "LIFE HACK", title: "Utilizing your Time", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .single),
-//                TodayItem(category: "HOLIDAYS", title: "Travel on a Budget", image: #imageLiteral(resourceName: "holiday"), description: "Find out all you need to know on how to travel without packing everything!", color: #colorLiteral(red: 0.9838810563, green: 0.9640342593, blue: 0.7226806879, alpha: 1), cellType: .single)
-//
-//    ]
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let aI = UIActivityIndicatorView(style: .large)
+        aI.startAnimating()
+        aI.hidesWhenStopped
+        return aI
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +30,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         collectionView.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.9098039269, blue: 0.9098039269, alpha: 1)
         collectionView.register(TodayCell.self, forCellWithReuseIdentifier: TodayItem.self.CellType.single.rawValue)
         collectionView.register(TodayMultipleAppCell.self, forCellWithReuseIdentifier: TodayItem.CellType.multiple.rawValue)
+        view.addSubview(activityIndicator)
+        activityIndicator.fillSuperview()
         
         fetchItems()
 
@@ -82,10 +80,6 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
             self.collectionView.reloadData()
         }
         
-
-      
-        
-        
     }
     
 
@@ -118,7 +112,15 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if todayItems[indexPath.item].cellType == .multiple {
+            let vc = TodayMultipleAppController(mode: .fullscreen)
+            vc.modalPresentationStyle = .fullScreen
+            vc.topPaidApp = todayItems[indexPath.item].apps
+            present(vc, animated: true)
+            return
+        }
         
+       
         collectionView.isUserInteractionEnabled = false
 
         let todayItem = todayItems[indexPath.item]
@@ -227,6 +229,12 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if todayItems.count != 0 {
+            activityIndicator.stopAnimating()
+        }
+    
+        
         return todayItems.count
     }
     
