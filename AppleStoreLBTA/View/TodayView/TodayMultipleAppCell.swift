@@ -44,10 +44,13 @@ class TodayMultipleAppCell: BaseTodayCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        
         backgroundColor = .white
         layer.cornerRadius = 16
-        clipsToBounds = true
         
+        
+        
+
         addSubview(categoryLabel)
         addSubview(titleLabel)
         addSubview(todayMultipleAppController.view)

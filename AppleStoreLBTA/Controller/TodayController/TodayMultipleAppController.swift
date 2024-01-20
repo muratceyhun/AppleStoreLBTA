@@ -10,11 +10,7 @@ import UIKit
 
 class TodayMultipleAppController: HorizontalSnappingController, UICollectionViewDelegateFlowLayout {
     
-   
-    
     var topPaidApp: [AppResults]?
-    
-    
     
     var mode: Mode
     
@@ -70,11 +66,7 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
         
     }
     
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
+
     fileprivate func setupCloseButton() {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 36, left: 0, bottom: 0, right: 20), size: .init(width: 48, height: 48))
@@ -85,12 +77,10 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
         guard let id = topPaidApp?[indexPath.item].id else {return}
         
         let appDetailController = AppDetailController(appID: id)
+        
         self.navigationController?.pushViewController(appDetailController, animated: true)
         
-        
     }
-    
-
     
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -119,7 +109,6 @@ class TodayMultipleAppController: HorizontalSnappingController, UICollectionView
         } else {
             return .init(width: view.frame.width - 48, height: 70)
         }
-        
      
     }
     

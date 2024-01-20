@@ -15,8 +15,8 @@ class ReviewHorizontalCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Comment Title"
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        label.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
         label.setContentCompressionResistancePriority(.init(rawValue: 0), for: .horizontal)
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
         return label
     }()
     
@@ -24,8 +24,10 @@ class ReviewHorizontalCell: UICollectionViewCell {
     let authorName: UILabel = {
         let label = UILabel()
         label.text = "UserName"
-        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+//        label.numberOfLines = 0
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 150).isActive = true
         return label
     }()
     

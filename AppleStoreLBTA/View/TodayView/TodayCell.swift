@@ -45,6 +45,7 @@ class TodayCell: BaseTodayCell {
         imageView.contentMode = .scaleAspectFill
         imageView.constrainWidth(constant: 240)
         imageView.constrainHeight(constant: 240)
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -65,7 +66,6 @@ class TodayCell: BaseTodayCell {
         
         backgroundColor = .white
         layer.cornerRadius = 16
-        clipsToBounds = true
         
         addSubview(categoryLabel)
         addSubview(titleLabel)

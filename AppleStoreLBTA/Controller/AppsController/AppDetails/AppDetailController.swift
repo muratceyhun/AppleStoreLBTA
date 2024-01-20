@@ -22,6 +22,7 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
         fatalError("init(coder:) has not been implemented")
     }
     
+ 
     let appDetailCellID = "appDetailCellID"
     let previewCellID = "previewCellID"
     let reviewCellID = "reviewCellID"
@@ -38,6 +39,7 @@ class AppDetailController: BaseListController, UICollectionViewDelegateFlowLayou
         collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: reviewCellID)
         fetchData()
     }
+    
     
     fileprivate func fetchData() {
         

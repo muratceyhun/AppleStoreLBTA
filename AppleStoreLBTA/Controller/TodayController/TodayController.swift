@@ -23,6 +23,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         aI.hidesWhenStopped
         return aI
     }()
+  
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,10 +117,16 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         if todayItems[indexPath.item].cellType == .multiple {
             let vc = TodayMultipleAppController(mode: .fullscreen)
             vc.topPaidApp = todayItems[indexPath.item].apps
-            let navVc = UINavigationController(rootViewController: vc)
+            let navVc = SpecialNavController(rootViewController: vc)
             navVc.modalPresentationStyle = .fullScreen
             present(navVc, animated: true)
             return
+        }
+        
+        class SpecialNavController: UINavigationController {
+            override var prefersStatusBarHidden: Bool {
+                return true
+            }
         }
         
        
