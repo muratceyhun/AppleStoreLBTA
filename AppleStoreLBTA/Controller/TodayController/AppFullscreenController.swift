@@ -14,6 +14,9 @@ class AppFullscreenController: UITableViewController {
     
     var dismissHandler: (() -> ())?
     
+    let appFullscreenHeaderCell = AppFullscreenHeaderCell()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
@@ -30,7 +33,6 @@ class AppFullscreenController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            let appFullscreenHeaderCell = AppFullscreenHeaderCell()
             appFullscreenHeaderCell.todayCell.todayItem = todayItem
             appFullscreenHeaderCell.closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
             

@@ -8,7 +8,7 @@
 import UIKit
 
 
-class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
+class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     
     var todayItems = [TodayItem]()
@@ -20,21 +20,28 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     let activityIndicator: UIActivityIndicatorView = {
         let aI = UIActivityIndicatorView(style: .large)
         aI.startAnimating()
-        aI.hidesWhenStopped
+        aI.hidesWhenStopped = true
         return aI
     }()
     
+    let blurVisualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+
+    fileprivate func setupBlurVision() {
+        view.addSubview(blurVisualEffect)
+        blurVisualEffect.fillSuperview()
+        blurVisualEffect.alpha = 0
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+ 
+        setupBlurVision()
         collectionView.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.9098039269, blue: 0.9098039269, alpha: 1)
         collectionView.register(TodayCell.self, forCellWithReuseIdentifier: TodayItem.self.CellType.single.rawValue)
         collectionView.register(TodayMultipleAppCell.self, forCellWithReuseIdentifier: TodayItem.CellType.multiple.rawValue)
         view.addSubview(activityIndicator)
         activityIndicator.fillSuperview()
-        
         fetchItems()
         
     }
@@ -72,8 +79,9 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
             self.todayItems =
             
             [
-                TodayItem(category: "THE DAILY LIST", title: self.group1?.feed.title ?? "", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple, apps: self.group1?.feed.results ?? []),
                 TodayItem(category: "LIFE HACK", title: "Utilizing your Time", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .single, apps: []),
+                TodayItem(category: "THE DAILY LIST", title: self.group1?.feed.title ?? "", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple, apps: self.group1?.feed.results ?? []),
+                
                 TodayItem(category: "THE DAILY LIST", title: "Top Free Books", image: #imageLiteral(resourceName: "garden"), description: "All the tools and apps you need to intelligently organize yor life the right way.", color: .white, cellType: .multiple, apps: self.group2?.feed.results ?? []),
                 
                 TodayItem(category: "HOLIDAYS", title: "Travel on a Budget", image: #imageLiteral(resourceName: "holiday"), description: "Find out all you need to know on how to travel without packing everything!", color: #colorLiteral(red: 0.9838810563, green: 0.9640342593, blue: 0.7226806879, alpha: 1), cellType: .single, apps: [])
@@ -127,6 +135,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     
     fileprivate func setupSingleTodayAppCell(_ indexPath: IndexPath) {
+            
         
         collectionView.isUserInteractionEnabled = false
         
@@ -137,6 +146,10 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         appFullscreenController.todayItem = todayItem
         
         
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        
+        appFullscreenController.view.addGestureRecognizer(gesture)
+        gesture.delegate = self
         appFullscreenController.dismissHandler = {
             self.handleRemoveFullScreenView()
         }
@@ -145,6 +158,25 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         appFullscreenController.view.layer.cornerRadius = 16
         self.appFullscreenController = appFullscreenController
 
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    @objc fileprivate func handlePan(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: appFullscreenController.view).y
+
+        if gesture.state == .changed {
+            let scale = 1 - translation / 1000
+            self.appFullscreenController.view.transform = CGAffineTransform(scaleX: scale, y: scale)
+        } else if gesture.state == .ended {
+            handleRemoveFullScreenView()
+            appFullscreenController.appFullscreenHeaderCell.closeButton.isHidden = true
+        }
+        
+     
+        
     }
     
     
@@ -182,7 +214,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     fileprivate func beginFullscreenAnimation() {
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.6, options: .curveEaseOut) {
-            
+            self.blurVisualEffect.alpha = 1
             self.anchoredConstraints?.top?.constant = 0
             self.anchoredConstraints?.leading?.constant = 0
             self.anchoredConstraints?.width?.constant = self.view.frame.width
@@ -215,6 +247,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
         
         
         
+        
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -236,7 +270,9 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout {
             
             self.view?.layoutIfNeeded()
             guard let startingFrame = self.startingFrame else {return}
-            
+            self.appFullscreenController.view.transform = .identity
+            self.blurVisualEffect.alpha = 0
+
             self.anchoredConstraints?.top?.constant = startingFrame.origin.y
             self.anchoredConstraints?.leading?.constant = startingFrame.origin.x
             self.anchoredConstraints?.width?.constant = startingFrame.width
