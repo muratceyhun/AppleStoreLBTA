@@ -164,23 +164,46 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
         return true
     }
     
+    var appFullscreenBeginOffset: CGFloat = 0
+    
     @objc fileprivate func handlePan(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: appFullscreenController.view).y
+        
+        if gesture.state == .began {
+            appFullscreenBeginOffset = appFullscreenController.tableView.contentOffset.y
+            print(appFullscreenBeginOffset)
 
-        if gesture.state == .changed {
-            let scale = 1 - translation / 1000
-            self.appFullscreenController.view.transform = CGAffineTransform(scaleX: scale, y: scale)
-        } else if gesture.state == .ended {
-            handleRemoveFullScreenView()
-            appFullscreenController.appFullscreenHeaderCell.closeButton.isHidden = true
         }
         
-     
+        if appFullscreenController.tableView.contentOffset.y > 0 {
+            return
+        }
         
+        let translationY = gesture.translation(in: appFullscreenController.view).y
+//        print(translationY)
+ 
+        
+        if gesture.state == .changed {
+            if translationY > 0 {
+                
+                let trueOffset = translationY - appFullscreenBeginOffset
+                var scale = 1 - trueOffset / 1000
+//                print(scale)
+                scale = max(0.5, scale)
+                self.appFullscreenController.view.transform = CGAffineTransform(scaleX: scale , y: scale)
+            }
+            
+        } else if gesture.state == .ended {
+            
+            if translationY > 0 {
+                handleRemoveFullScreenView()
+            }
+            
+        }
     }
     
     
     fileprivate func setupStartingCellFrame(_ indexPath: IndexPath) {
+        
         guard let cell = collectionView.cellForItem(at: indexPath) else {return}
         guard let startingFrame = cell.superview?.convert(cell.frame, to: nil) else {return}
         self.startingFrame = startingFrame
@@ -245,10 +268,6 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
         beginFullscreenAnimation()
         
         
-        
-        
-        
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -284,8 +303,8 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
             self.view?.layoutIfNeeded()
             
             let fullScreenCell = self.appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
+            fullScreenCell.closeButton.alpha = 0
             fullScreenCell.todayCell.topConstraint.constant = 24
-            
             fullScreenCell.layoutIfNeeded()
             
             
