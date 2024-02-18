@@ -225,7 +225,7 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
         
         self.view.layoutIfNeeded()
         
-        let fullScreenCell = appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
+        guard let fullScreenCell = appFullscreenController.tableView.cellForRow(at: [0,0]) as? AppFullscreenHeaderCell else {return}
         fullScreenCell.todayCell.topConstraint.constant = 88
         
         
@@ -302,8 +302,10 @@ class TodayController: BaseListController, UICollectionViewDelegateFlowLayout, U
             
             self.view?.layoutIfNeeded()
             
-            let fullScreenCell = self.appFullscreenController.tableView.cellForRow(at: [0,0]) as! AppFullscreenHeaderCell
-            fullScreenCell.closeButton.alpha = 0
+        
+            guard let fullScreenCell = self.appFullscreenController.tableView.cellForRow(at: [0,0]) as? AppFullscreenHeaderCell else {return}
+//            fullScreenCell.closeButton.alpha = 0
+            self.appFullscreenController.closeButton.alpha = 0
             fullScreenCell.todayCell.topConstraint.constant = 24
             fullScreenCell.layoutIfNeeded()
             
