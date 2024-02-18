@@ -38,6 +38,55 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
         tableView.allowsSelection = false
         tableView.contentInsetAdjustmentBehavior = .never
         setupCloseButton()
+        setupFloatingControls()
+    }
+    
+    fileprivate func setupFloatingControls() {
+        
+        let floatingContainerView = UIView()
+        view.addSubview(floatingContainerView)
+        let height = UIApplication.shared.statusBarHeight
+        floatingContainerView.layer.cornerRadius = 16
+        floatingContainerView.clipsToBounds = true
+        floatingContainerView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 16, bottom: height, right: 16), size: .init(width: 0, height: 96))
+        
+        let blurVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        floatingContainerView.addSubview(blurVisualEffectView)
+        blurVisualEffectView.fillSuperview()
+        
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "garden"))
+        imageView.layer.cornerRadius = 8
+        imageView.constrainHeight(constant: 72)
+        imageView.constrainWidth(constant: 72)
+        
+        let appLabel = UILabel()
+        appLabel.text = "Life Hack"
+        appLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        let descLabel = UILabel()
+        descLabel.text = "Utilizing your time"
+        descLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        
+        let getButton = UIButton()
+        getButton.setTitle("GET", for: .normal)
+        getButton.setTitleColor(.white, for: .normal)
+        getButton.layer.cornerRadius = 18
+        getButton.constrainWidth(constant: 72)
+        getButton.constrainHeight(constant: 36)
+        getButton.backgroundColor = #colorLiteral(red: 0.3411764503, green: 0.3411764503, blue: 0.3411764503, alpha: 1)
+        
+        let verticalStackView = UIStackView(arrangedSubviews: [appLabel, descLabel])
+        verticalStackView.axis = .vertical
+        verticalStackView.distribution = .fillEqually
+        let stackView = UIStackView(arrangedSubviews: [imageView, verticalStackView, getButton])
+        stackView.spacing = 16
+        stackView.alignment = .center
+        
+        floatingContainerView.addSubview(stackView)
+        stackView.fillSuperview(padding: .init(top: 16, left: 16, bottom: 8, right: 16))
+        
+        
+        
     }
     
     fileprivate func setupCloseButton() {
@@ -93,4 +142,21 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
     }
         
     
+}
+
+extension UIApplication {
+    var statusBarHeight: CGFloat {
+        connectedScenes
+            .compactMap {
+                $0 as? UIWindowScene
+            }
+            .compactMap {
+                $0.statusBarManager
+            }
+            .map {
+                $0.statusBarFrame
+            }
+            .map(\.height)
+            .max() ?? 0
+    }
 }
