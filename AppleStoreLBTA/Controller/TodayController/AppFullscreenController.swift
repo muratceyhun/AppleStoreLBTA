@@ -41,14 +41,25 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
         setupFloatingControls()
     }
     
+    
+    @objc fileprivate func handleTap() {
+        
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7) {
+            self.floatingContainerView.transform = .init(translationX: 0, y: -500)
+        }
+        
+    }
+    
+    let floatingContainerView = UIView()
+
+    let height = UIApplication.shared.statusBarHeight
+
     fileprivate func setupFloatingControls() {
         
-        let floatingContainerView = UIView()
         view.addSubview(floatingContainerView)
-        let height = UIApplication.shared.statusBarHeight
         floatingContainerView.layer.cornerRadius = 16
         floatingContainerView.clipsToBounds = true
-        floatingContainerView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 16, bottom: height, right: 16), size: .init(width: 0, height: 96))
+        floatingContainerView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 16, bottom: -96, right: 16), size: .init(width: 0, height: 96))
         
         let blurVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
         floatingContainerView.addSubview(blurVisualEffectView)
@@ -85,9 +96,12 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
         floatingContainerView.addSubview(stackView)
         stackView.fillSuperview(padding: .init(top: 16, left: 16, bottom: 8, right: 16))
         
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
         
     }
+    
+   
     
     fileprivate func setupCloseButton() {
         view.addSubview(closeButton)
@@ -97,12 +111,26 @@ class AppFullscreenController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         if scrollView.contentOffset.y < 0 {
             scrollView.isScrollEnabled = false
             scrollView.isScrollEnabled = true
         }
+        
+        print(scrollView.contentOffset.y)
+  
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7) {
+            
+            
+            self.floatingContainerView.transform = scrollView.contentOffset.y > 100 ? .init(translationX: 0, y: -90 - self.height) : .identity
+            
+//            if scrollView.contentOffset.y > 100 {
+//                self.floatingContainerView.transform = .init(translationX: 0, y: -90 - self.height)
+//            } else {
+//                self.floatingContainerView.transform = .identity
+//            }
+        }
     }
-    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
