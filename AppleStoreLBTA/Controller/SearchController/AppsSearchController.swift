@@ -73,7 +73,7 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let selectedApp = appResults[indexPath.item]
-        let appID = String(selectedApp.trackId)
+        let appID = String(selectedApp.trackId ?? .zero)
         let detailController = AppDetailController(appID: appID)
         navigationController?.pushViewController(detailController, animated: true)
         print(selectedApp.trackCensoredName)

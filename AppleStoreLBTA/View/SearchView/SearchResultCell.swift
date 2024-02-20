@@ -14,18 +14,21 @@ class SearchResultCell: UICollectionViewCell {
     var appResult: Result! {
         didSet {
             
+            
+            guard let screenShotURL = appResult.screenshotUrls else {return}
+            
             nameLabel.text = appResult?.trackCensoredName
             categoryLabel.text = appResult?.primaryGenreName
             ratingsLabel.text = String(appResult?.averageUserRating ?? .zero)
             imageView.sd_setImage(with: URL(string: appResult?.artworkUrl100 ?? ""))
             
-            screenshot1ImageView.sd_setImage(with: URL(string: appResult?.screenshotUrls[0] ?? ""))
-            if appResult?.screenshotUrls.count ?? .zero > 1 {
-                self.screenshot2ImageView.sd_setImage(with: URL(string: self.appResult?.screenshotUrls[1] ?? ""))
+            screenshot1ImageView.sd_setImage(with: URL(string: screenShotURL[0]))
+            if screenShotURL.count > 1 {
+                self.screenshot2ImageView.sd_setImage(with: URL(string: screenShotURL[1]))
             }
             
-            if appResult?.screenshotUrls.count ?? .zero > 2 {
-                self.screenshot3ImageView.sd_setImage(with: URL(string: self.appResult?.screenshotUrls[2] ?? ""))
+            if screenShotURL.count > 2 {
+                self.screenshot3ImageView.sd_setImage(with: URL(string: screenShotURL[2]))
             }
             
         }

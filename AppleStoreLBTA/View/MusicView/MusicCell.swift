@@ -23,6 +23,7 @@ class MusicCell: UICollectionViewCell {
     let musicName: UILabel = {
         let label = UILabel()
         label.text = "Music Name"
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -30,6 +31,7 @@ class MusicCell: UICollectionViewCell {
     let artistName: UILabel = {
         let label = UILabel()
         label.text = "Taylor Swift"
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         return label
     }()
@@ -48,11 +50,13 @@ class MusicCell: UICollectionViewCell {
         let verticalStackView = UIStackView(arrangedSubviews: [musicName, artistName])
         verticalStackView.axis = .vertical
         verticalStackView.spacing = 4
+        verticalStackView.distribution = .fillProportionally
         let stackView = UIStackView(arrangedSubviews: [imageView, verticalStackView])
         stackView.alignment = .center
         stackView.spacing = 16
+        stackView.distribution = .fillProportionally
         addSubview(stackView)
-        stackView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 16, left: 16, bottom: 16, right: 16))
+        stackView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 16, left: 16, bottom: 16, right: 16))
         addSubview(seperatorLine)
         seperatorLine.anchor(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
         
