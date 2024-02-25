@@ -15,10 +15,8 @@ class MusicController: BaseListController, UICollectionViewDelegateFlowLayout {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         collectionView.register(MusicCell.self, forCellWithReuseIdentifier: musicCellID)
         collectionView.register(MusicLoadingFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: footerID)
-        
         fetchData()
     }
     

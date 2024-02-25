@@ -24,6 +24,12 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
         return label
     }()
     
+    fileprivate let activityIndicator: UIActivityIndicatorView = {
+        let aI = UIActivityIndicatorView(style: .large)
+        aI.hidesWhenStopped = true
+        return aI
+    }()
+    
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
@@ -32,11 +38,11 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
         collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.addSubview(enterSearchTermLabel)
         enterSearchTermLabel.fillSuperview(padding: .init(top: 260, left: 56, bottom: 0, right: 56))
+        collectionView.addSubview(activityIndicator)
+        activityIndicator.anchor(top: enterSearchTermLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0))
         setupSearchBar()
-    
     }
-    
-    
+ 
     fileprivate func setupSearchBar() {
         definesPresentationContext = true
         navigationItem.searchController = searchController
@@ -44,12 +50,21 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
         searchController.searchBar.delegate = self
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        appResults = []
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     
     var timer: Timer?
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        let searchText = searchText.replacingOccurrences(of: " ", with: "+")
+        activityIndicator.startAnimating()
+        
+        var searchText = searchText.replacingOccurrences(of: " ", with: "+")
         
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
@@ -62,7 +77,12 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
                 guard let results = results else {return}
                 self.appResults = results.results
                 
+               
                 DispatchQueue.main.async {
+                    if searchText == "" {
+                        self.activityIndicator.stopAnimating()
+                        self.appResults = []
+                    }
                     self.collectionView.reloadData()
                 }
             }
@@ -76,6 +96,8 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
         let appID = String(selectedApp.trackId ?? .zero)
         let detailController = AppDetailController(appID: appID)
         navigationController?.pushViewController(detailController, animated: true)
+        detailController.navigationItem.title = selectedApp.trackName
+        detailController.navigationItem.largeTitleDisplayMode = .never
         print(selectedApp.trackCensoredName)
     }
     
@@ -92,6 +114,9 @@ class AppsSearchController: BaseListController, UICollectionViewDelegateFlowLayo
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         enterSearchTermLabel.isHidden = appResults.count != 0
+        if appResults.count != 0 {
+            activityIndicator.stopAnimating()
+        }
         return appResults.count
     }
 

@@ -40,4 +40,13 @@ class AppsHeaderHorizontalController: HorizontalSnappingController, UICollection
     }
     
     
+    var didSelectHandler: ((HeaderModel) -> ())?
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let headerResult = headerResults[indexPath.item]
+        didSelectHandler?(headerResult)
+        print(headerResult.id)
+        
+    }
 }

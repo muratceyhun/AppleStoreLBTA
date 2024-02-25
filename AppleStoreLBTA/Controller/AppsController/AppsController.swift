@@ -140,6 +140,13 @@ class AppsController: BaseListController, UICollectionViewDelegateFlowLayout {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! AppsPageHeader
         header.appsHeaderHorizontalController.headerResults = self.headerResults
         header.appsHeaderHorizontalController.collectionView.reloadData()
+        header.appsHeaderHorizontalController.didSelectHandler = { [weak self] headerItem in
+            
+            let headerDetailController = AppDetailController(appID: headerItem.id)
+            self?.navigationController?.pushViewController(headerDetailController, animated: true)
+            headerDetailController.navigationItem.title = headerItem.name
+            headerDetailController.navigationItem.largeTitleDisplayMode = .never
+        }
         return header
     }
     
